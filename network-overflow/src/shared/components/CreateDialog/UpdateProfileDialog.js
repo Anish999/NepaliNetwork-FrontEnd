@@ -13,9 +13,8 @@ import defaultImage from '../../../views/home/imagee.jpg';
 import SimpleDialog from '../dialog/SimpleDialog';
 import AuthContext from '../../../context/auth-context';
 import jwt_decode from 'jwt-decode';
-import PersonIcon from "@material-ui/icons/Person";
+import PersonIcon from '@material-ui/icons/Person';
 import Switch from '@material-ui/core/Switch';
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #ddd',
     padding: '5px',
     '&:hover': {
-      boxShadow: '0 0 2px 1px rgba(0, 140, 186, 0.5)'
-    }
+      boxShadow: '0 0 2px 1px rgba(0, 140, 186, 0.5)',
+    },
   },
   viewProfile: {
     height: '300px',
@@ -63,9 +62,9 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #ddd',
     padding: '5px',
     '&:hover': {
-      boxShadow: '0 0 2px 1px rgba(0, 140, 186, 0.5)'
-    }
-  }
+      boxShadow: '0 0 2px 1px rgba(0, 140, 186, 0.5)',
+    },
+  },
 }));
 
 export default function FormDialog(props) {
@@ -79,48 +78,50 @@ export default function FormDialog(props) {
   const [count, setCount] = React.useState();
 
   const getUser = async () => {
-      const token = localStorage.getItem('token');
-      if(token !== null){
-          const decoded = jwt_decode(token);
-      
+    const token = localStorage.getItem('token');
+    if (token !== null) {
+      const decoded = jwt_decode(token);
+
       const data = decoded.email;
 
       try {
         const config = {
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-            "Allow-Control-Allow-Methods": '*',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*',
+            'Allow-Control-Allow-Methods': '*',
             'Content-Type': 'application/json',
-            Accept: 'application/json'
+            Accept: 'application/json',
           },
         };
-      await axios
-      .get(`http://localhost:5000/api/users/${data}`, config)
-      .then(res => {
-          const user1 = res.data.user;
-          const u = {
+        await axios
+          .get(`http://localhost:5000/api/users/${data}`, config)
+          .then((res) => {
+            const user1 = res.data.user;
+            const u = {
               firstName: user1.firstName,
               lastName: user1.lastName,
               password: user1.password,
               email: user1.email,
               id: user1._id,
               hasPet: user1.hasPet,
-              image: user1.image? user1.image: defaultImage
-          }
-          
-          if(!userState.email){
-            setUser(u);
-          }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    } catch(error) {
-          console.log(error);
-        }
+              profileImage: user1.profileImage
+                ? user1.profileImage
+                : defaultImage,
+            };
+
+            if (!userState.email) {
+              setUser(u);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
+  };
 
   const validate = (values) => {
     const errors = {};
@@ -134,7 +135,7 @@ export default function FormDialog(props) {
       lastName: '',
       email: '',
       password: '',
-      profileImage: userState.profileImage
+      profileImage: userState.profileImage,
     },
     validate,
     onSubmit: async (user) => {
@@ -146,9 +147,9 @@ export default function FormDialog(props) {
     setShowDialog(false);
     if (title === 'Success') {
       handleClose();
-      
+
       //setCount(count+1);
-       window.location.reload();
+      window.location.reload();
     }
   };
 
@@ -173,7 +174,8 @@ export default function FormDialog(props) {
         ...prevState,
         hasPet: !x,
       };
-    });  };
+    });
+  };
 
   const handleImage = (event) => {
     const data = new FormData();
@@ -186,12 +188,13 @@ export default function FormDialog(props) {
   const editUser = async (user) => {
     user = {
       email: userState.email,
-      lastName: user.lastName===''?userState.lastName:user.lastName,
-      firstName: user.firstName===''?userState.firstName:user.firstName,
-      password:user.password===''?userState.password:user.password,
-      profileImage: image.location !== '' ? image.location : defaultImage,
-      id:userState.id,
-      hasPet: userState.hasPet
+      lastName: user.lastName === '' ? userState.lastName : user.lastName,
+      firstName: user.firstName === '' ? userState.firstName : user.firstName,
+      password: user.password === '' ? userState.password : user.password,
+      profileImage:
+        userState.profileImage !== '' ? userState.profileImage : defaultImage,
+      id: userState.id,
+      hasPet: userState.hasPet,
     };
     //console.log('I am here');
     console.log(user);
@@ -250,8 +253,8 @@ export default function FormDialog(props) {
   return (
     <div>
       <Button color='primary' onClick={handleClickOpen}>
-      {/* <PersonIcon /> */}
-      <img className={classes.profileImg} src={image.location}/>
+        {/* <PersonIcon /> */}
+        <img className={classes.profileImg} src={userState.profileImage} />
       </Button>
       <Dialog
         open={open}
@@ -264,7 +267,7 @@ export default function FormDialog(props) {
             <DialogContentText className={classes.dialogHeader}>
               Edit your Profile
             </DialogContentText>
-            <img className={classes.viewProfile} src={image.location}/>
+            <img className={classes.viewProfile} src={userState.profileImage} />
             <TextField
               required
               autoFocus
@@ -353,7 +356,7 @@ export default function FormDialog(props) {
               <h4 className={classes.multilineColor1}>Do you have pets?</h4>
             </div>
             <br />
-            
+
             <TextField type='file' onChange={handleImage} />
           </DialogContent>
           <DialogActions>
