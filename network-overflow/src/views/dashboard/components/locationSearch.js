@@ -23,16 +23,29 @@ export default function CitySelect(props) {
   const classes = useStyles();
 
   const handleChange = async (address) => {
-    const obj = {
-      city: address.city,
-      state: address.state,
-    };
-    await setValue({
-      city: address.city,
-      state: address.state,
-    });
+    if (address != null) {
+      const obj = {
+        city: address.city,
+        state: address.state,
+      };
+      await setValue({
+        city: address.city,
+        state: address.state,
+      });
+      if (props.setAddress != null) {
+        updateParent(obj);
+      } else if (props.filterEvent != null) {
+        if (obj.city != null) {
+          props.filterEvent(obj.city, obj.state);
+        } else {
+          props.filterEvent("", "");
+        }
+      }
+    } else {
+      props.filterEvent("", "");
 
-    updateParent(obj);
+
+    }
   };
 
   const updateParent = (obj) => {
