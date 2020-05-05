@@ -112,8 +112,9 @@ const SignIn = props => {
         }
       };
       await axios
-        .post(`${process.env.REACT_APP_API}/api/login`, user, config)
-        .then(res => {
+      //.post(`${process.env.REACT_APP_API}/api/login`, user, config)
+      .post(`http://localhost:5000/api/login`, user, config)
+      .then(res => {
           if (res.data.message) {
             return showDialogBox('Warning', res.data.message);
           }

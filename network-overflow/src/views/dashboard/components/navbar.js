@@ -4,7 +4,7 @@ import logo from "./logoNetwork.png";
 import PersonIcon from "@material-ui/icons/Person";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
-
+import Profile from '../../../shared/components/CreateDialog/UpdateProfileDialog';
 const bigFont = {
   fontWeight: "500",
   width: "35px",
@@ -102,9 +102,9 @@ export default function HomePageNavBar() {
                 paddingTop: "50px"
               }}
             >
-              Avash
+              <Profile />
             </span>
-            <PersonIcon style={bigFont} />
+            {/* <PersonIcon style={bigFont} /> */}
           </div>
         </div>
       </div>
