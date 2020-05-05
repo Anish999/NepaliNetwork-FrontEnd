@@ -79,8 +79,8 @@ const SignUp = () => {
       errors.password = 'Password must be at least 6 character long';
     }
 
-    if (!values.firstName) {
-      errors.firstName = 'Required';
+    if (!values.phoneNumber) {
+      errors.phoneNumber = 'Required';
     }
 
     return errors;
@@ -93,6 +93,7 @@ const SignUp = () => {
       email: '',
       password: '',
       phoneNumber: '',
+      profileImage: '',
     },
     validate,
     onSubmit: async (user) => {
@@ -101,24 +102,25 @@ const SignUp = () => {
   });
 
   const signup = async (user) => {
+    console.log('I am here', user);
     try {
       const config = {
         headers: {
           'Content-Type': 'application/json',
         },
       };
-
       await axios
-        .post(`${process.env.REACT_APP_API}/api/users/signUp`, user, config)
+        .post(`http://localhost:5000/api/users/signUp`, user, config)
         .then((res) => {
-          console.log('res: ', res);
+          console.log('res: ', res.data);
           if (res.data.message) {
             return showDialogBox('Warning', res.data.message);
           }
-
           showDialogBox('Success', 'User added successfully');
         });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const showDialogBox = (title, message) => {
@@ -252,7 +254,7 @@ const SignUp = () => {
                   className: classes.multilineColor,
                 }}
                 autoFocus
-                value={formik.values.firstName}
+                value={formik.values.phoneNumber}
                 onChange={formik.handleChange}
               />
               {formik.errors.phoneNumber ? (

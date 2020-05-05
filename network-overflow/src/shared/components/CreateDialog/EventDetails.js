@@ -39,6 +39,17 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '4px',
     padding: '5px',
   },
+  eventImage: {
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    padding: '5px',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '300px',
+    height: '300px',
+    objectFit: 'none',
+  },
 }));
 
 const EventDetails = (props) => {
@@ -111,7 +122,10 @@ const EventDetails = (props) => {
         </DialogTitle>
         <DialogContent style={{ color: 'black' }}>
           <DialogContentText className={classes.dialogHeader}>
-            <img src={props.eventInfo.image}></img>
+            <img
+              className={classes.eventImage}
+              src={props.eventInfo.image}
+            ></img>
             Event Information
           </DialogContentText>
           <h4>{props.eventInfo.description}</h4>

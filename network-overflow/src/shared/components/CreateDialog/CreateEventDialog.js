@@ -246,8 +246,8 @@ export default function FormDialog(props) {
       await axios
         .post(`http://localhost:5000/api/profile/profile-img-upload`, file)
         .then((res) => {
-          // console.log(JSON.stringify(res.data));
-          // console.log(res.data.location);
+          console.log(JSON.stringify(res.data));
+          console.log(res.data.location);
           setImage({ location: res.data.location });
         })
         // .then((resData) => {
