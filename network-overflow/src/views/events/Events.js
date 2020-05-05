@@ -6,8 +6,7 @@ import Card from "./../../shared/card-template/card";
 import Navbar from "../dashboard/components/navbar";
 import Create from "./../../shared/components/CreateDialog/CreateEventDialog";
 import CitySelect from "../dashboard/components/locationSearch";
-import axios from 'axios';
-
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,20 +35,22 @@ const Events = () => {
     try {
       const config = {
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
       };
       await axios
         .get(`http://localhost:5000/api/events`, config)
         .then((response) => {
-          const imported =  response.data.events;
+          const imported = response.data.events;
           let importedEvent;
           imported.map((e) => {
             importedEvent = {
               title: e.eventName,
-              date: e.eventStartDate,
+              startDate: e.eventStartDate,
+              endDate: e.eventEndDate,
               description: e.eventSummary,
+              eventCreator: e.eventCreator,
               venue: e.eventVenue,
               image: e.eventImage,
             };
@@ -69,12 +70,22 @@ const Events = () => {
   };
 
   getEvents();
+  // // const filterEvent = (city, state) => {
+  // //   console.log(city);
+  // //   console.log(state);
+  // //   if (city != "" && state != "") {
+  // //     const filteredEvent = events.filter((e) => e.State == state);
+  // //     updateEvent(filteredEvent);
+  // //   } else {
+  // //     updateEvent(events);
+  //   // }
+  // };
 
   return (
     <div style={{ backgroundColor: "#f2f2f2" }}>
       <Navbar />
-    <CitySelect />
-      <Container maxWidth='lg'>
+      <CitySelect />
+      <Container maxWidth="lg">
         <h2> Events Around You</h2>
         <Create render={() => getEvents()} />
         <br />
