@@ -6,7 +6,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
-import ContactPhoneIcon from '@material-ui/icons/ContactPhone';
 import PersonIcon from '@material-ui/icons/Person';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
@@ -41,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EventDetails = (props) => {
+const RoommateDetails = (props) => {
   //console.log(props);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -54,8 +53,8 @@ const EventDetails = (props) => {
   });
   let user;
   const getUser = async () => {
-    const data = props.eventInfo.eventCreator;
-
+    const data = props.roommateInfo.creatorId;
+    //console.log(data);
     try {
       const config = {
         headers: {
@@ -66,7 +65,7 @@ const EventDetails = (props) => {
         .get(`http://localhost:5000/api/users/id/${data}`, config)
         .then((res) => {
           user = res.data.user;
-          // console.log(user);
+          //console.log(user);
           setUser({
             email: user.email,
             id: user._id,
@@ -107,20 +106,19 @@ const EventDetails = (props) => {
         aria-labelledby='form-dialog-title'
       >
         <DialogTitle id='form-dialog-title' style={{ color: 'black' }}>
-          <h3>{props.eventInfo.title}</h3>
+          <h3>{props.roommateInfo.listingType} Bedroom Apartment</h3>
         </DialogTitle>
         <DialogContent style={{ color: 'black' }}>
           <DialogContentText className={classes.dialogHeader}>
-            <img src={props.eventInfo.image}></img>
+            <img src={props.roommateInfo.image}></img>
             Event Information
           </DialogContentText>
-          <h4>{props.eventInfo.description}</h4>
+          <h4>{props.roommateInfo.description}</h4>
           <h4>
-            Location: {props.eventInfo.street}, {props.eventInfo.city},{' '}
-            {props.eventInfo.state}
+            Location: {props.roommateInfo.street}, {props.roommateInfo.city},{' '}
+            {props.roommateInfo.state}
           </h4>
-          <h4>Start Date : {props.eventInfo.startDate} </h4>
-          <h4>End Date : {props.eventInfo.endDate}</h4>
+          <h4>Posted on : {props.roommateInfo.datePosted}</h4>
           <h2>Contact Details </h2>
           <Grid container spacing={2}>
             <Grid item xs={6}>
@@ -141,7 +139,7 @@ const EventDetails = (props) => {
                 <IconButton aria-label='add to favorites'>
                   <CallIcon />
                 </IconButton>
-                {userState.phoneNumber}
+                {props.roommateInfo.contactNumber}
               </h4>
             </Grid>
             <Grid item xs={6}>
@@ -158,4 +156,4 @@ const EventDetails = (props) => {
     </div>
   );
 };
-export default EventDetails;
+export default RoommateDetails;

@@ -25,28 +25,28 @@ function Copyright() {
     </Typography>
   );
 }
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    color: 'black'
+    color: 'black',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: 'red'
+    backgroundColor: 'red',
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
   },
   multilineColor: {
-    color: 'black'
-  }
+    color: 'black',
+  },
 }));
 
 const SignUp = () => {
@@ -56,7 +56,7 @@ const SignUp = () => {
   const [dialogMessage, setDialogMessage] = useState('');
   const [dialogTitle, setDialogTitle] = useState('');
 
-  const validate = values => {
+  const validate = (values) => {
     const errors = {};
     if (!values.firstName) {
       errors.firstName = 'Required';
@@ -79,6 +79,10 @@ const SignUp = () => {
       errors.password = 'Password must be at least 6 character long';
     }
 
+    if (!values.firstName) {
+      errors.firstName = 'Required';
+    }
+
     return errors;
   };
 
@@ -87,25 +91,26 @@ const SignUp = () => {
       firstName: '',
       lastName: '',
       email: '',
-      password: ''
+      password: '',
+      phoneNumber: '',
     },
     validate,
-    onSubmit: async user => {
+    onSubmit: async (user) => {
       signup(user);
-    }
+    },
   });
 
-  const signup = async user => {
+  const signup = async (user) => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       };
 
       await axios
         .post(`${process.env.REACT_APP_API}/api/users/signUp`, user, config)
-        .then(res => {
+        .then((res) => {
           console.log('res: ', res);
           if (res.data.message) {
             return showDialogBox('Warning', res.data.message);
@@ -164,7 +169,7 @@ const SignUp = () => {
                 id='firstName'
                 label='First Name'
                 InputProps={{
-                  className: classes.multilineColor
+                  className: classes.multilineColor,
                 }}
                 autoFocus
                 value={formik.values.firstName}
@@ -185,7 +190,7 @@ const SignUp = () => {
                 name='lastName'
                 autoComplete='lname'
                 InputProps={{
-                  className: classes.multilineColor
+                  className: classes.multilineColor,
                 }}
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
@@ -205,7 +210,7 @@ const SignUp = () => {
                 name='email'
                 autoComplete='email'
                 InputProps={{
-                  className: classes.multilineColor
+                  className: classes.multilineColor,
                 }}
                 value={formik.values.email}
                 onChange={formik.handleChange}
@@ -226,13 +231,32 @@ const SignUp = () => {
                 id='password'
                 autoComplete='current-password'
                 InputProps={{
-                  className: classes.multilineColor
+                  className: classes.multilineColor,
                 }}
                 value={formik.values.password}
                 onChange={formik.handleChange}
               />
               {formik.errors.password ? (
                 <div className='form-error'>{formik.errors.password}</div>
+              ) : null}
+
+              <TextField
+                autoComplete='phone'
+                name='phoneNumber'
+                variant='outlined'
+                required
+                fullWidth
+                id='phoneNumber'
+                label='Phone Number'
+                InputProps={{
+                  className: classes.multilineColor,
+                }}
+                autoFocus
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+              />
+              {formik.errors.phoneNumber ? (
+                <div className='form-error'>{formik.errors.phoneNumber}</div>
               ) : null}
             </Grid>
             <Grid item xs={12}>
