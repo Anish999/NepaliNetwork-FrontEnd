@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import RoommateDetails from '../../shared/components/CreateDialog/RoommateDetails';
 
 const useStyles = makeStyles({
   root: {
@@ -37,7 +38,7 @@ export default function MediaCard(props) {
             variant='h5'
             component='h2'
           >
-            {props.roommate.title}
+            {props.roommate.listingType} Bedroom Apartment
           </Typography>
           <Typography
             gutterBottom
@@ -56,9 +57,8 @@ export default function MediaCard(props) {
         <Button size='small' color='primary'>
           Share
         </Button>
-        <Button size='small' color='primary'>
-          Learn More
-        </Button>
+        <RoommateDetails roommateInfo={props.roommate} />
+
       </CardActions>
     </Card>
   );

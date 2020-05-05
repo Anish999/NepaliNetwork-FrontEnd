@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Roommates = () => {
-  const [value, setValue] = React.useState({ list: [] });
+  const [value, setValue] = React.useState([]);
 
   const getRoommates = async () => {
     let importedRooms = [];
@@ -44,26 +44,45 @@ const Roommates = () => {
         .then((response) => {
           const imported = response.data.rommmates;
           let importedRoom;
-          // console.log(imported);
-          imported.map((r) => {
+          let a;
+          const requests = imported.map(async (r) => {
+            await axios
+              .get(
+                `http://localhost:5000/api/addresses/${r.address}`,
+                config
+              )
+              .then((res) => {
+                a = res.data.address;
+                console.log(a);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          //imported.map((r) => {
+            //console.log(r);
             importedRoom = {
               listingType: r.listingType,
               address: r.addressId,
               description: r.description,
-              user: r.userId,
               image: r.image,
+              street: a.street,
+              city: a.city,
+              state: a.state,
               contactNumber: r.contactNumber,
               petsAllowed: r.petsAllowed,
-              datePosted: r.datePosted,
+              datePosted: new Date(r.datePosted).toLocaleString(),
+              creatorId: r.user
             };
-            //  console.log(importedRoom);
+             //console.log(importedRoom);
             importedRooms.push(importedRoom);
           });
           //  console.log(importedRooms);
-          if (importedRooms.length > value.list.length) {
-            setValue({ list: [...importedRooms] });
-            importedRooms = [];
-          }
+          Promise.all(requests).then(() => {
+            if (importedRooms.length > value.length) {
+              setValue(importedRooms);
+              importedRooms = [];
+            }
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -85,7 +104,7 @@ const Roommates = () => {
           <Create render={() => getRoommates()} />
           <br />
           <Grid container className={useStyles.gridContainer} spacing={2}>
-            {value.list.map((roommate) => {
+            {value.map((roommate) => {
               return (
                 <Grid item xs={12} sm={6} md={3} lg={3}>
                   <Card roommate={roommate} />

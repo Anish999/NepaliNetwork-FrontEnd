@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import logo from "./logoNetwork.png";
-import PersonIcon from "@material-ui/icons/Person";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 import Profile from '../../../shared/components/CreateDialog/UpdateProfileDialog';
@@ -104,7 +104,9 @@ export default function HomePageNavBar() {
             >
               <Profile />
             </span>
-            {/* <PersonIcon style={bigFont} /> */}
+            <span><Link to='/'>            <h4 style={{fontWeight: "italicized"}}>Logout<ExitToAppIcon /></h4>
+</Link>
+            </span> 
           </div>
         </div>
       </div>

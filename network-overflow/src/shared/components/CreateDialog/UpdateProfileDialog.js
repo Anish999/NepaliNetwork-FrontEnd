@@ -11,9 +11,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import defaultImage from '../../../views/home/imagee.jpg';
 import SimpleDialog from '../dialog/SimpleDialog';
-import AuthContext from '../../../context/auth-context';
 import jwt_decode from 'jwt-decode';
-import PersonIcon from '@material-ui/icons/Person';
 import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,14 +54,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   viewProfile: {
-    height: '300px',
-    width: '300px',
+    // height: '300px',
+    // width: '300px',
     borderRadius: '50%',
     border: '1px solid #ddd',
     padding: '5px',
     '&:hover': {
       boxShadow: '0 0 2px 1px rgba(0, 140, 186, 0.5)',
     },
+    display: 'block',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  width: '300px',
+  height: '300px',
+  objectFit: 'none'
   },
 }));
 
@@ -262,6 +266,7 @@ export default function FormDialog(props) {
         aria-labelledby='form-dialog-title'
       >
         <DialogTitle id='form-dialog-title'>Subscribe</DialogTitle>
+          
         <form noValidate onSubmit={formik.handleSubmit}>
           <DialogContent>
             <DialogContentText className={classes.dialogHeader}>
